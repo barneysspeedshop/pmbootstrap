@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pmbootstrap"
+dynamic = ["version"]
+authors = [
+  {name = "postmarketOS Developers", email="info@postmarketos.org"}
+]
+description = "A sophisticated chroot / build / flash tool to develop and install postmarketOS'"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+
+[project.scripts]
+pmbootstrap = "pmb:main"
+
+[project.optional-dependencies]
+test = ["pytest"]
+completion = ["argcomplete"]
+
+[project.urls]
+Homepage = "https://www.postmarketos.org"
+
+[tool.setuptools.dynamic]
+version = {attr =  "pmb.__version__"}
+
+[tool.setuptools.packages.find]
+exclude = ["aports", "docs", "keys", "test", "test.pmb_test"]
+
+[tool.ruff]
+line-length=100
+# Assume Python 3.10
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["UP"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# F401: imported but unused, common for __init__.py files
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+# Enable auto-formatting of code examples in docstrings.
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+    "--basetemp=.pytest_tmp"
+]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
